@@ -33,7 +33,11 @@ const Main = {
     getStoraged: function () {
         const tasks = localStorage.getItem('tasks')
 
-        this.tasks = JSON.parse(tasks)
+        if(tasks){
+            this.tasks = JSON.parse(tasks)
+        } else{
+            localStorage.setItem('tasks', JSON.stringify([]))
+        }
     },
 
     getTaskHtml: function (task) {
@@ -91,6 +95,7 @@ const Main = {
                     ...savedTasksObj,
                 ]
 
+                this.tasks = obj
                 localStorage.setItem('tasks', JSON.stringify(obj))
             }
         },
@@ -102,6 +107,7 @@ const Main = {
             const newTasksState = this.tasks.filter(item => item.task !== value)
 
             localStorage.setItem('tasks', JSON.stringify(newTasksState))
+            this.tasks = newTasksState
 
             li.classList.add('removed')
 
